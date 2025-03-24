@@ -1,20 +1,21 @@
-name:
-Windows
-on:
-workflow.dispatch:
-jobs:
+name: cl
+on: [push, workflow_dispatch]
+joba:
 build:
-name: Start Building...
-runs-on: windows-latest
-timeout-minutes: 9999
+runa-on: windows-latest
 steps:
-name: Downloading & Installing Essentials I
-run:
-Invoke-WebRequest Uri "https://gitlab.com/chamod12/lm_win-10_github_rdp/-/raw/main/Downloads.bat"
-QutFile "Downloads.bat"
-cmd /c Downloads.bat
-name: Connect to LiteManager
-run: cmd /c show.bat
-name: Time Counter
-run:
-cmd /c loop.bat
+name: Download
+run: Invoke-WebRequest https://bin.equinox.10/6/bNyj1mQVY4c/ngrok-v3-stable-windows-amd64.zip -OutFile
+ngrok.zip
+name: Extract
+run: Expand Archive ngrok.zip
+name: Auth
+run: Angrok\ngrok.exe authtoken $Env:NGROK_AUTH TOKEN
+env:
+NGROK AUTH_TOKEN: {{ secrets.NGROK_AUTH_TOKEN }}
+name: Enable TS
+run: Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server'-name
+run: Enable-NetFirewallRule DisplayGroup "Remote Desktop"
+"DenyTSConnections" -Value 0 run: Set-ItemProperty Path "HKLM\System\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tep' -name "UserAuthentication" -Value 1 run: Set-LocalUser Name "runneradmin" -Password (ConvertTo-SecureString -AsPlainText "Pessword!" Force)
+name: Create Tunnel
+run: Angrok\ngrok.exe top 3389
